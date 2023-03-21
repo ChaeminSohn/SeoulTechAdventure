@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    public Transform target;
+    public Transform targetTr;
     public Vector3 offset;
-
-
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
-        transform.position = target.position + offset;
+        transform.position = targetTr.position + offset;
     }
 }
