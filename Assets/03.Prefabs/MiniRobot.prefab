@@ -2729,7 +2729,7 @@ GameObject:
   - component: {fileID: 7266702933114676297}
   m_Layer: 0
   m_Name: MiniRobot
-  m_TagString: Untagged
+  m_TagString: ROBOT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2770,6 +2770,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &3380965275953744267
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2804,6 +2805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f494112526241f4c960ba5f548b9d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
 --- !u!1 &6425974398294299850
 GameObject:
   m_ObjectHideFlags: 0

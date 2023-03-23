@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class ButtonCtrl : MonoBehaviour
 {
+    public GameObject door;
+    private Transform field;
     // Start is called before the first frame update
     void Start()
     {
-        
+        field = door.transform.Find("ForceField");
     }
 
     // Update is called once per frame
@@ -15,4 +17,13 @@ public class NewBehaviourScript : MonoBehaviour
     {
         
     }
+
+	void OnCollisionEnter(Collision coll)
+	{
+        if (coll.collider.tag == "PLAYER")
+        {
+            Destroy(field.gameObject);
+        }
+
+	}
 }
