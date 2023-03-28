@@ -15,15 +15,16 @@ public class ButtonCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-	void OnCollisionEnter(Collision coll)
-	{
-        if (coll.collider.tag == "PLAYER")
-        {
-            Destroy(field.gameObject);
-        }
+    void OnTriggerStay(Collider other)
+    {
+        door.gameObject.SetActive(false);
+    }
 
-	}
+    void OnTriggerExit(Collider other)
+    {
+        door.gameObject.SetActive(true);
+    }
 }
