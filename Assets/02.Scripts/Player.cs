@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private Transform tr;
     private RaycastHit slopehit;
 
+    
+
     Dictionary<KeyCode, Action> keyDictionary;
 
     Rigidbody rigid;
@@ -26,7 +28,6 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Game Start");
         anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
        
@@ -35,13 +36,15 @@ public class Player : MonoBehaviour
     {
         keyDictionary = new Dictionary<KeyCode, Action>
         {
-            {KeyCode.Keypad1, keyDown_1 },
-            {KeyCode.Keypad2, keyDown_2 },
-            {KeyCode.Keypad3, keyDown_3 },
+            {KeyCode.Alpha1, keyDown_1 },
+            {KeyCode.Alpha2, keyDown_2 },
+            {KeyCode.Alpha3, keyDown_3 },
           
         };
         tr = GetComponent<Transform>();
         manager = GameManager.instance;
+        FinishPoint.OnPlayerWin += this.OnPlayerWin;
+        Debug.Log("Game Start");
     }
 
     // Update is called once per frame
@@ -56,9 +59,9 @@ public class Player : MonoBehaviour
                     dic.Value();
             }
             if (Input.GetButton("Follow"))
-                manager.GiveCommand(1);
+                manager.GiveCommand("Follow");
             else if (Input.GetButton("Move"))
-                manager.GiveCommand(2);
+                manager.GiveCommand("Move");
             
         }
     }
@@ -95,7 +98,6 @@ public class Player : MonoBehaviour
     {
     
             var angle = Vector3.Angle(transform.up, slopehit.normal);
-            Debug.Log(angle);
             Quaternion rot = Quaternion.LookRotation(slopehit.normal);
             Vector3 up = rot.eulerAngles;
             tr.forward = up;
@@ -143,18 +145,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnPlayerWin()
+    {
+        Debug.Log("You Win!");
+    }
+
     void keyDown_1()
     {
-        Debug.Log(1);
-        GameManager.instance.GiveCommand(1);
+        GameManager.instance.SetCtrl(1);
     }
     void keyDown_2()
     {
-        GameManager.instance.GiveCommand(2);
+        GameManager.instance.SetCtrl(2);
     }
     void keyDown_3()
     {
-        GameManager.instance.GiveCommand(3);
+        GameManager.instance.SetCtrl(3);
     }
 }
 

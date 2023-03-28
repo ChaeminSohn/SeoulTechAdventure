@@ -32,18 +32,18 @@ public class MiniRobot : MonoBehaviour
         StartCoroutine(RobotAction());
     }
 
-    public void Command(int cmd, Vector3 pos)
+    public void Command(System.String cmd, Vector3 pos)
     {
         switch (cmd)
         {
-            case 1:
+            case "Follow":
                 state = State.TRACE;
                 break;
-            case 2:
+            case "Move":
                 state = State.MOVE;
                 agent.destination = pos;
                 break;
-            case 3:
+            case "Explode":
                 break;
         }
     }
