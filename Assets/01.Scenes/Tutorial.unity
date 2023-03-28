@@ -841,6 +841,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1446321855}
     m_Modifications:
+    - target: {fileID: 279875444, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380965275953744267, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375530176017723002, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6424232804232902448, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -888,6 +900,10 @@ PrefabInstance:
     - target: {fileID: 6425973888650533576, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
       propertyPath: m_Name
       value: MiniRobot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448133514145291808, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f3ca9998df9b6e4ba5a61e4942de9bc, type: 3}
