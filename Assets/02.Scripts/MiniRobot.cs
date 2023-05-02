@@ -67,7 +67,7 @@ public class MiniRobot : MonoBehaviour
                     {
                         agent.SetDestination(playerTr.position);
                         anim.SetBool(hashWalk, true);
-                        agent.speed = (float)playerTr.GetComponent<Player>()?.moveSpeed * 2;
+                        agent.speed = (float)playerTr.GetComponent<PlayerCtrl>()?.moveSpeed * 2;
                         agent.isStopped = false;
                     }
                     else
@@ -79,7 +79,7 @@ public class MiniRobot : MonoBehaviour
                     break;
                 case State.MOVE:
                     anim.SetBool(hashWalk, true);
-                    agent.speed = (float)playerTr.GetComponent<Player>()?.moveSpeed * 2;
+                    agent.speed = (float)playerTr.GetComponent<PlayerCtrl>()?.moveSpeed * 2;
                     agent.isStopped = false;
                     break;
 
