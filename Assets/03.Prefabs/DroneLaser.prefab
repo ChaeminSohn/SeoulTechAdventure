@@ -103,7 +103,7 @@ MonoBehaviour:
   m_doNotOverwriteTemplateMaterialProperties: 0
   m_startPos: {x: 0, y: 3, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
-  m_lineColor: {r: 1, g: 0, b: 0.09249592, a: 1}
+  m_lineColor: {r: 0, g: 0.22319436, b: 1, a: 1}
   m_lineWidth: 1
   m_lightSaberFactor: 0.8
 --- !u!114 &5673709631953373956
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   force: 5000
+  sparkEffect: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
 --- !u!54 &7824808453053646140
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,7 +145,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7541438941181244165}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 3, z: 0.1}

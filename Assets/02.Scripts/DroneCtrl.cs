@@ -43,7 +43,7 @@ public class DroneCtrl : MonoBehaviour
                     droneTr.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
                     break;
                 case State.DETECT:
-                    Debug.DrawRay(firePos.position, (playerTr.position - firePos.position), Color.green);
+                    Debug.DrawRay(firePos.position, (playerTr.position - firePos.position), Color.red);
                     break;
                 case State.FIRE:
                     transform.GetComponent<FireCtrl>()?.Fire();
@@ -87,7 +87,7 @@ public class DroneCtrl : MonoBehaviour
         {
             case "PLAYER":
                 detectTime += 0.1f;
-                if (detectTime >= 15.0f)
+                if (detectTime >= 10.0f)
                     state = State.FIRE;
                 break;
 

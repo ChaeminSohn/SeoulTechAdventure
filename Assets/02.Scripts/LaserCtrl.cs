@@ -8,6 +8,8 @@ public class LaserCtrl : MonoBehaviour
     public float force = 5000.0f;
     private Rigidbody rb;
     private Transform tr;
+
+    public GameObject sparkEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +25,17 @@ public class LaserCtrl : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision coll)
     {
-        if (!other.CompareTag("DRONE"))
+        if (!coll.collider.CompareTag("DRONE"))
         {
-            if (other.CompareTag("PLAYER"))
-                other.transform.GetComponent<PlayerCtrl>()?.OnDamage();
+            if (coll.collider.CompareTag("PLAYER"))
+                coll.collider.transform.GetComponent<PlayerCtrl>()?.OnDamage();
+            ContactPoint cp = coll.GetContact(0);
+            Quaternion rot = Quaternion.LookRotation(-cp.normal);
+            GameObject spark = Instantiate(sparkEffect, cp.point, rot);
             Destroy(this.gameObject);
+            Destroy(spark, 0.5f);
         }
     }
 
