@@ -6,13 +6,18 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    float hAxis;
-    float vAxis;
     bool running;
     bool jumping;
     bool isBorder;
-    public float moveSpeed;
-    public float jumpPower;
+    public float moveSpeed = 15.0f;
+    public float jumpPower = 15.0f;
+    public float XturnSpeed = 5.0f;
+    public float YturnSpeed = 3.0f;
+    private float eulerAngleX;
+    private float eulerAngleY;  
+    private float turnLimitX = -80;
+    private float turnLimitY = 50;
+
     private readonly float initHp = 100.0f;
     public float currHP;
 
@@ -54,7 +59,8 @@ public class PlayerCtrl : MonoBehaviour
     void Update()
     {
         move();
-        jump();
+        turn();
+        //jump();
 
         if (Input.anyKeyDown){
             foreach(var dic in keyDictionary){
@@ -67,6 +73,8 @@ public class PlayerCtrl : MonoBehaviour
                 manager.GiveCommand("Move");
             
         }
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
@@ -109,35 +117,62 @@ public class PlayerCtrl : MonoBehaviour
 
     void move()
     {
-        Vector3 moveVector;
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
         running = Input.GetButton("Run");
 
-        if(!jumping)
+        /*if(!jumping)
          moveVector = new Vector3(hAxis, 0, vAxis).normalized;
         else
          moveVector = new Vector3(hAxis, 0, vAxis).normalized/2;
+        */
         if (!isBorder)
         {
             if (running && !jumping)
                 //transform.position += moveVector * 2 * moveSpeed * Time.deltaTime;
-                tr.Translate(moveVector * 2 * moveSpeed * Time.deltaTime, Space.World);
+                tr.Translate((Vector3.forward * v + Vector3.right * h).normalized 
+                    * 2 * moveSpeed * Time.deltaTime, Space.Self);
             else
                 //transform.position += moveVector * moveSpeed * Time.deltaTime;
-                tr.Translate(moveVector * moveSpeed * Time.deltaTime , Space.World);
+                tr.Translate((Vector3.forward * v + Vector3.right * h).normalized 
+                    * moveSpeed * Time.deltaTime, Space.Self);
         }
 
-        anim.SetBool("isWalk", moveVector != Vector3.zero);
+        anim.SetBool("isWalk", h == 0 && v == 0);
         anim.SetBool("isRun", running && !jumping);
 
         Ray ray = new Ray(transform.position, -transform.up);
         if (Physics.Raycast(ray, out slopehit, 1.0f, 1 << 7))
             TiltOnSlope();
 
-        transform.LookAt(transform.position + moveVector);
+        //transform.LookAt(transform.position + moveVector);
     }
 
+    void turn()
+    {
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+        eulerAngleY += mouseX * XturnSpeed;
+        eulerAngleX -= mouseY * YturnSpeed;
+        eulerAngleX = ClampAngle(eulerAngleX, turnLimitX, turnLimitY);
+        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        //tr.Rotate(Vector3.up * turnSpeed * Time.deltaTime * );
+    }
+
+    private float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360)
+        {
+            angle += 360;
+        }
+
+        if (angle > 360)
+        {
+            angle -= 360;
+        }
+
+        return Mathf.Clamp(angle, min, max);
+    }
     void jump()
     {
         if (Input.GetButtonDown("Jump") && !jumping)
