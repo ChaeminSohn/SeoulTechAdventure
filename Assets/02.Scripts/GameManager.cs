@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public List<int> ctrl = new List<int>();    
     public static GameManager instance = null;
     private RaycastHit hit;
+    GameObject player;
     Camera cam;
 
     public GameObject robot;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         else if (instance != null)
             Destroy(this.gameObject);
         DontDestroyOnLoad(this.gameObject);
+        
     }
     void Start()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class ButtonCtrl : MonoBehaviour
@@ -22,17 +23,11 @@ public class ButtonCtrl : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if(isActive)
-            door.gameObject.SetActive(false);
-        else 
-            door.gameObject.SetActive(true);    
+            door.gameObject.SetActive(false); 
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(isActive)
             door.gameObject.SetActive(true);
-        else
-            door.gameObject.SetActive(false);
     }
 }

@@ -100,9 +100,9 @@ public class PlayerCtrl : MonoBehaviour
 
     void StopToWall()
     {
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
+        Debug.DrawRay(transform.position + 3 * Vector3.up, transform.forward * 10, Color.green);
         Debug.DrawRay(transform.position, -transform.up * 5, Color.blue);
-        isBorder = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));
+        isBorder = Physics.Raycast(transform.position + 3 * Vector3.up, transform.forward, 10, LayerMask.GetMask("Wall"));
     }
 
     void TiltOnSlope()
