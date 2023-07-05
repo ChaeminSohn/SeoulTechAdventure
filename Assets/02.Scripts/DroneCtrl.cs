@@ -26,7 +26,6 @@ public class DroneCtrl : MonoBehaviour
     {
         droneTr = GetComponent<Transform>();
         playerTr = GameObject.FindWithTag("PLAYER").GetComponent<Transform>();
-        Debug.Log(droneTr);
         state = State.SCOUT;
 
         //StartCoroutine(DroneAction());

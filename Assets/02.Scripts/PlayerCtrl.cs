@@ -17,7 +17,7 @@ public class PlayerCtrl : MonoBehaviour
     private float eulerAngleY;  
     private float turnLimitX = -80;
     private float turnLimitY = 50;
-
+    private float commandRange = 100.0f;
     private readonly float initHp = 100.0f;
     public float currHP;
 
@@ -25,6 +25,8 @@ public class PlayerCtrl : MonoBehaviour
 
     private Transform tr;
     private RaycastHit slopehit;
+    private Camera playerCamera;
+    private RaycastHit hit;
 
     
 
@@ -37,17 +39,18 @@ public class PlayerCtrl : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
+        playerCamera = GetComponentInChildren<Camera>();
        
     }
     void Start()
     {
-        keyDictionary = new Dictionary<KeyCode, Action>
+        /*keyDictionary = new Dictionary<KeyCode, Action>
         {
             {KeyCode.Alpha1, keyDown_1 },
             {KeyCode.Alpha2, keyDown_2 },
             {KeyCode.Alpha3, keyDown_3 },
           
-        };
+        };*/
         tr = GetComponent<Transform>();
         manager = GameManager.instance;
         FinishPoint.OnPlayerWin += this.OnPlayerWin;
@@ -61,18 +64,40 @@ public class PlayerCtrl : MonoBehaviour
         move();
         turn();
         //jump();
+        
+        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * commandRange, Color.green);
 
+       
         if (Input.anyKeyDown){
-            foreach(var dic in keyDictionary){
+            /*foreach(var dic in keyDictionary){
                 if (Input.GetKeyDown(dic.Key))
                     dic.Value();
+            }*/
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("click");
+                if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
+                    out hit, commandRange, 1 << 9))
+                {
+                    Debug.Log("Start Ctrl" + hit.transform.name);
+                    GameManager.instance.SetCtrl(hit.transform.gameObject);
+                }
             }
-            if (Input.GetButton("Follow"))
-                manager.GiveCommand("Follow");
-            else if (Input.GetButton("Move"))
+            else if (Input.GetMouseButtonDown(1))
+            {
                 manager.GiveCommand("Move");
+            }
+            else if (Input.GetButton("Follow"))
+                manager.GiveCommand("Follow");
+            /*else if (Input.GetButton("Move"))
+                manager.GiveCommand("Move");*/
+            else if (Input.GetButton("RobotSkill"))       
+                manager.GiveCommand("Skill");
+            
+            
             
         }
+        
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -198,7 +223,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         Debug.Log("You Died");
     }
-    void keyDown_1()
+    /*void keyDown_1()
     {
         GameManager.instance.SetCtrl(1);
     }
@@ -209,7 +234,7 @@ public class PlayerCtrl : MonoBehaviour
     void keyDown_3()
     {
         GameManager.instance.SetCtrl(3);
-    }
+    }*/
 }
 
     

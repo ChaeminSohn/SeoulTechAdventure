@@ -9,6 +9,9 @@ TagManager:
   - ROBOT
   - DRONE_STOP_POINT
   - DRONE
+  - BUTTON
+  - PORTAL
+  - ROBOT_CNT
   layers:
   - Default
   - TransparentFX
@@ -19,8 +22,8 @@ TagManager:
   - Wall
   - Slope
   - Stair
-  - 
-  - 
+  - Robot
+  - Button
   - 
   - 
   - 

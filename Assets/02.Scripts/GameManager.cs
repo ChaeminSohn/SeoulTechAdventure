@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> robots = new List<GameObject>();
-    public List<int> ctrl = new List<int>();    
+    public List<GameObject> ctrlRobots = new List<GameObject>();    
     public static GameManager instance = null;
     private RaycastHit hit;
     GameObject player;
     Camera cam;
-
+    private RectTransform robotPanel;
+    private Vector2 rectSize;
+    private float width;
     public GameObject robot;
 
     void Awake()
@@ -32,28 +35,37 @@ public class GameManager : MonoBehaviour
             robots.Add(robot);
    
         //robot = GameObject.Find("MiniRobot");
-        ctrl.Add(0);
+        //ctrl.Add(0);
         
         cam = Camera.main;
+        robotPanel = GameObject.FindGameObjectWithTag("ROBOT_CNT")?.GetComponent<Image>().GetComponent<RectTransform>();
+        rectSize = robotPanel.sizeDelta;
     }
 
     public void GiveCommand(System.String cmd)
     { 
-        foreach(int i in ctrl)
+        foreach(GameObject robot in ctrlRobots)
         {
-            robots[i].GetComponent<MiniRobot>()?.Command(cmd, hit.point);
+            robot.GetComponent<RobotCtrl>()?.Command(cmd, hit.point);
         }
     }
    
 
-    public void SetCtrl(int num)
+    public void SetCtrl(GameObject robot)
     {
-        if (robots.Count >= num)
+        if (!ctrlRobots.Contains(robot))
         {
-            num--;
-            if (ctrl.Contains(num))
-                ctrl.Remove(num);
-            else ctrl.Add(num);
+            ctrlRobots.Add(robot);
+            rectSize += new Vector2(225.0f, 0);
+            robotPanel.sizeDelta = rectSize;
+            Debug.Log("Start Control" + robot.name);
+        }
+        else
+        {
+            ctrlRobots.Remove(robot);
+            rectSize -= new Vector2(215.0f, 0);
+            robotPanel.sizeDelta = rectSize;
+            //robot.GetComponent<RobotCtrl>()?.Command("Wait", Vector3.zero);
         }
     }
 
