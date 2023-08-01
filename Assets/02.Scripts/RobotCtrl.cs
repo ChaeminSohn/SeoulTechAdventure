@@ -28,7 +28,7 @@ public class RobotCtrl : MonoBehaviour
     private bool isAlive = true;
     public GameObject button;
 
-    private readonly int hashWalk = Animator.StringToHash("Roll_Anim");
+    private readonly int hashWalk = Animator.StringToHash("Walk_Anim");
 
     void Start()
     {
