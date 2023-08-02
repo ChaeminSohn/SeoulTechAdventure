@@ -29,6 +29,8 @@ public class RobotCtrl : MonoBehaviour
     public GameObject button;
 
     private readonly int hashWalk = Animator.StringToHash("Walk_Anim");
+    private readonly int hashSkill = Animator.StringToHash("Skill_Anim");
+    private readonly int hashOpen = Animator.StringToHash("Open_Anim");
 
     void Start()
     {
@@ -97,7 +99,8 @@ public class RobotCtrl : MonoBehaviour
         if (Physics.Raycast(robotTr.position, -robotTr.up, out hit, 10.0f) && hit.transform.CompareTag("BUTTON")){
             button = hit.transform.gameObject;
             button.GetComponent<ChargeButtonCtrl>()?.OnCharge(type);
-        } 
+        }
+       
     }
 
     private void OnParticleSystemStopped()
@@ -108,6 +111,7 @@ public class RobotCtrl : MonoBehaviour
     {
         while (isAlive)
         {
+            image_Type.transform.position = (robotTr.position + offset);
             yield return new WaitForSeconds(0.3f);
 
             switch (state)
@@ -135,7 +139,12 @@ public class RobotCtrl : MonoBehaviour
                     break;
                 case State.SKILL:
                     agent.isStopped = true;
+                    anim.SetBool(hashOpen, true);
                     UseSkill();
+                    state = State.WAIT;
+                    yield return new WaitForSeconds(3.0f);
+                    anim.SetBool(hashOpen, false);
+                    
                     break;
                 case State.MOVE:
                     float MoveDistance = Vector3.Distance(agent.destination, robotTr.position);
@@ -154,7 +163,7 @@ public class RobotCtrl : MonoBehaviour
                     break;
 
             }
-            image_Type.transform.position = (robotTr.position + offset);
+           
         }
     }
 
