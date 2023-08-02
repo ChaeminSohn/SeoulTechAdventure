@@ -31,6 +31,7 @@ public class RobotCtrl : MonoBehaviour
     private readonly int hashWalk = Animator.StringToHash("Walk_Anim");
     private readonly int hashSkill = Animator.StringToHash("Skill_Anim");
     private readonly int hashOpen = Animator.StringToHash("Open_Anim");
+  
 
     void Start()
     {
@@ -139,12 +140,11 @@ public class RobotCtrl : MonoBehaviour
                     break;
                 case State.SKILL:
                     agent.isStopped = true;
-                    anim.SetBool(hashOpen, true);
+                    anim.SetBool(hashOpen,true);
                     UseSkill();
-                    state = State.WAIT;
                     yield return new WaitForSeconds(3.0f);
-                    anim.SetBool(hashOpen, false);
-                    
+                    anim.SetBool(hashOpen,false);
+                    state = State.WAIT;
                     break;
                 case State.MOVE:
                     float MoveDistance = Vector3.Distance(agent.destination, robotTr.position);
