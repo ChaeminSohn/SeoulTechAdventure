@@ -9,7 +9,10 @@ public class RobotCtrl : MonoBehaviour
     RaycastHit hit;
     Position destination;
     public GameObject image_Type;
-    public Vector3 offset = new Vector3(0, 8.0f,0);
+    public Transform SkillPos;
+    public GameObject SkillEffect;
+    public Vector3 offset = new Vector3(0, 8.0f, 0);
+    private GameObject flame;
     public enum State
     {
         WAIT, TRACE, MOVE, OPEN, CLOSED, SKILL
@@ -31,7 +34,7 @@ public class RobotCtrl : MonoBehaviour
     private readonly int hashWalk = Animator.StringToHash("Walk_Anim");
     private readonly int hashSkill = Animator.StringToHash("Skill_Anim");
     private readonly int hashOpen = Animator.StringToHash("Open_Anim");
-  
+
 
     void Start()
     {
@@ -60,7 +63,7 @@ public class RobotCtrl : MonoBehaviour
 
     public void Command(System.String cmd, Vector3 pos)
     {
-        if(cmd != "Skill" && state == State.SKILL && button != null)
+        if (cmd != "Skill" && state == State.SKILL && button != null)
         {
             button.GetComponent<ChargeButtonCtrl>()?.StopCharge();
         }
@@ -78,6 +81,7 @@ public class RobotCtrl : MonoBehaviour
                 break;
             case "Skill":
                 state = State.SKILL;
+
                 break;
             case "Explode":
                 break;
@@ -87,26 +91,29 @@ public class RobotCtrl : MonoBehaviour
     void UseSkill()
     {
         Debug.Log("skill");
-        /*switch (type)
+        switch (type)
         {
             case Type.RED:
+                Skill_Fire();
                 break;
             case Type.GREEN:
+                Skill_Wind();
                 break;
             case Type.YELLOW:
-                //Skill_Electric();
+                Skill_Electric();
                 break;
-        }*/
-        if (Physics.Raycast(robotTr.position, -robotTr.up, out hit, 10.0f) && hit.transform.CompareTag("BUTTON")){
+        }
+        if (Physics.Raycast(robotTr.position, -robotTr.up, out hit, 10.0f) && hit.transform.CompareTag("BUTTON"))
+        {
             button = hit.transform.gameObject;
             button.GetComponent<ChargeButtonCtrl>()?.OnCharge(type);
         }
-       
+
     }
 
     private void OnParticleSystemStopped()
     {
-       
+
     }
     IEnumerator RobotAction()
     {
@@ -140,10 +147,14 @@ public class RobotCtrl : MonoBehaviour
                     break;
                 case State.SKILL:
                     agent.isStopped = true;
-                    anim.SetBool(hashOpen,true);
+                    anim.SetBool(hashOpen, true);
+                    yield return new WaitForSeconds(1.0f);
                     UseSkill();
                     yield return new WaitForSeconds(3.0f);
-                    anim.SetBool(hashOpen,false);
+
+                    Destroy(flame, .5f);
+                    anim.SetBool(hashOpen, false);
+
                     state = State.WAIT;
                     break;
                 case State.MOVE:
@@ -163,10 +174,19 @@ public class RobotCtrl : MonoBehaviour
                     break;
 
             }
-           
+
         }
     }
 
+    void Skill_Fire()
+    {
+        flame = Instantiate(SkillEffect, SkillPos.position, SkillPos.rotation);
+    }
+
+    void Skill_Wind()
+    {
+
+    }
     void Skill_Electric()
     {
 

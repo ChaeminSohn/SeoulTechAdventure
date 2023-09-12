@@ -11,10 +11,10 @@ public class PlayerCtrl : MonoBehaviour
     bool isBorder;
     public float moveSpeed = 15.0f;
     public float jumpPower = 15.0f;
-    public float XturnSpeed = 5.0f;
-    public float YturnSpeed = 3.0f;
+    public float XturnSpeed = 100.0f;
+    public float YturnSpeed = 100.0f;
     private float eulerAngleX;
-    private float eulerAngleY;  
+    private float eulerAngleY;
     private float turnLimitX = -80;
     private float turnLimitY = 50;
     private float commandRange = 100.0f;
@@ -24,11 +24,14 @@ public class PlayerCtrl : MonoBehaviour
     private GameManager manager;
 
     private Transform tr;
+    public Transform headTr;
+    private Rigidbody rb;
     private RaycastHit slopehit;
     private Camera playerCamera;
     private RaycastHit hit;
 
-    
+
+
 
     Dictionary<KeyCode, Action> keyDictionary;
 
@@ -38,9 +41,9 @@ public class PlayerCtrl : MonoBehaviour
     void Awake()
     {
         anim = GetComponentInChildren<Animator>();
-        rigid = GetComponent<Rigidbody>();
+        rigid = gameObject.GetComponent<Rigidbody>();
         playerCamera = GetComponentInChildren<Camera>();
-       
+
     }
     void Start()
     {
@@ -52,6 +55,8 @@ public class PlayerCtrl : MonoBehaviour
           
         };*/
         tr = GetComponent<Transform>();
+        headTr = tr.Find("Mesh Object").Find("Bone_Body").Find("Bone_Neck").transform;
+        rb = GetComponent<Rigidbody>();
         manager = GameManager.instance;
         FinishPoint.OnPlayerWin += this.OnPlayerWin;
         currHP = initHp;
@@ -64,11 +69,12 @@ public class PlayerCtrl : MonoBehaviour
         move();
         turn();
         //jump();
-        
+
         Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * commandRange, Color.green);
 
-       
-        if (Input.anyKeyDown){
+
+        if (Input.anyKeyDown)
+        {
             /*foreach(var dic in keyDictionary){
                 if (Input.GetKeyDown(dic.Key))
                     dic.Value();
@@ -91,13 +97,13 @@ public class PlayerCtrl : MonoBehaviour
                 manager.GiveCommand("Follow");
             /*else if (Input.GetButton("Move"))
                 manager.GiveCommand("Move");*/
-            else if (Input.GetButton("RobotSkill"))       
+            else if (Input.GetButton("RobotSkill"))
                 manager.GiveCommand("Skill");
-            
-            
-            
+
+
+
         }
-        
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -132,18 +138,25 @@ public class PlayerCtrl : MonoBehaviour
 
     void TiltOnSlope()
     {
-    
-            var angle = Vector3.Angle(transform.up, slopehit.normal);
-            Quaternion rot = Quaternion.LookRotation(slopehit.normal);
-            Vector3 up = rot.eulerAngles;
-            tr.forward = up;
-         
+
+        var angle = Vector3.Angle(transform.up, slopehit.normal);
+        Quaternion rot = Quaternion.LookRotation(slopehit.normal);
+        Vector3 up = rot.eulerAngles;
+        tr.forward = up;
+
     }
 
     void move()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+        Vector3 getVel = new Vector3(h, 0, v) * moveSpeed;
+        Vector3 locVel = transform.InverseTransformDirection(getVel);
+        locVel.x = h;
+        locVel.y = 0;
+        locVel.z = v;
+        locVel *= moveSpeed;
+
         running = Input.GetButton("Run");
 
         /*if(!jumping)
@@ -151,16 +164,18 @@ public class PlayerCtrl : MonoBehaviour
         else
          moveVector = new Vector3(hAxis, 0, vAxis).normalized/2;
         */
-        if (!isBorder)
+        if (!isBorder || h <= 0)
         {
             if (running && !jumping)
                 //transform.position += moveVector * 2 * moveSpeed * Time.deltaTime;
-                tr.Translate((Vector3.forward * v + Vector3.right * h).normalized 
-                    * 2 * moveSpeed * Time.deltaTime, Space.Self);
+                rb.velocity = transform.TransformDirection(locVel) * 2;
+            //tr.Translate((Vector3.forward * v + Vector3.right * h).normalized 
+            //* 2 * moveSpeed * Time.deltaTime, Space.Self);
             else
                 //transform.position += moveVector * moveSpeed * Time.deltaTime;
-                tr.Translate((Vector3.forward * v + Vector3.right * h).normalized 
-                    * moveSpeed * Time.deltaTime, Space.Self);
+                //tr.Translate((Vector3.forward * v + Vector3.right * h).normalized
+                //* moveSpeed * Time.deltaTime, Space.Self);
+                rb.velocity = transform.TransformDirection(locVel);
         }
 
         anim.SetBool("isWalk", h == 0 && v == 0);
@@ -179,8 +194,13 @@ public class PlayerCtrl : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y");
         eulerAngleY += mouseX * XturnSpeed;
         eulerAngleX -= mouseY * YturnSpeed;
-        eulerAngleX = ClampAngle(eulerAngleX, turnLimitX, turnLimitY);
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        mouseX = ClampAngle(mouseX, turnLimitX, turnLimitY);
+        //eulerAngleX = ClampAngle(eulerAngleX, turnLimitX, turnLimitY);
+        //transform.rotation = Quaternion.Euler(0, eulerAngleY, 0);
+        // headTr.rotation = Quaternion.Euler(eulerAngleX, 0, 0);
+        tr.Rotate(Vector3.up * mouseX * XturnSpeed * Time.deltaTime);
+        playerCamera.transform.Rotate(Vector3.left * mouseY * YturnSpeed * Time.deltaTime);
+
         //tr.Rotate(Vector3.up * turnSpeed * Time.deltaTime * );
     }
 
@@ -237,4 +257,4 @@ public class PlayerCtrl : MonoBehaviour
     }*/
 }
 
-    
+
