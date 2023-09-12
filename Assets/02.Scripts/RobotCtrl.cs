@@ -11,7 +11,11 @@ public class RobotCtrl : MonoBehaviour
     public GameObject image_Type;
     public Transform SkillPos;
     public GameObject SkillEffect;
+<<<<<<< Updated upstream
     public Vector3 offset = new Vector3(0, 8.0f, 0);
+=======
+    public Vector3 offset = new Vector3(0, 8.0f,0);
+>>>>>>> Stashed changes
     private GameObject flame;
     public enum State
     {
@@ -81,7 +85,11 @@ public class RobotCtrl : MonoBehaviour
                 break;
             case "Skill":
                 state = State.SKILL;
+<<<<<<< Updated upstream
 
+=======
+                
+>>>>>>> Stashed changes
                 break;
             case "Explode":
                 break;
@@ -103,8 +111,12 @@ public class RobotCtrl : MonoBehaviour
                 Skill_Electric();
                 break;
         }
+<<<<<<< Updated upstream
         if (Physics.Raycast(robotTr.position, -robotTr.up, out hit, 10.0f) && hit.transform.CompareTag("BUTTON"))
         {
+=======
+        if (Physics.Raycast(robotTr.position, -robotTr.up, out hit, 10.0f) && hit.transform.CompareTag("BUTTON")){
+>>>>>>> Stashed changes
             button = hit.transform.gameObject;
             button.GetComponent<ChargeButtonCtrl>()?.OnCharge(type);
         }
@@ -147,6 +159,7 @@ public class RobotCtrl : MonoBehaviour
                     break;
                 case State.SKILL:
                     agent.isStopped = true;
+<<<<<<< Updated upstream
                     anim.SetBool(hashOpen, true);
                     yield return new WaitForSeconds(1.0f);
                     UseSkill();
@@ -155,6 +168,16 @@ public class RobotCtrl : MonoBehaviour
                     Destroy(flame, .5f);
                     anim.SetBool(hashOpen, false);
 
+=======
+                    anim.SetBool(hashOpen,true);
+                    yield return new WaitForSeconds(1.0f);
+                    UseSkill();
+                    yield return new WaitForSeconds(3.0f);
+                    
+                    Destroy(flame, .5f) ;
+                    anim.SetBool(hashOpen,false);
+                    
+>>>>>>> Stashed changes
                     state = State.WAIT;
                     break;
                 case State.MOVE:

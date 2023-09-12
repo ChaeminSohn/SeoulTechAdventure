@@ -29,6 +29,7 @@ public class PlayerCtrl : MonoBehaviour
     private RaycastHit slopehit;
     private Camera playerCamera;
     private RaycastHit hit;
+    
 
 
 
@@ -156,7 +157,11 @@ public class PlayerCtrl : MonoBehaviour
         locVel.y = 0;
         locVel.z = v;
         locVel *= moveSpeed;
+<<<<<<< Updated upstream
 
+=======
+        
+>>>>>>> Stashed changes
         running = Input.GetButton("Run");
 
         /*if(!jumping)
@@ -164,7 +169,11 @@ public class PlayerCtrl : MonoBehaviour
         else
          moveVector = new Vector3(hAxis, 0, vAxis).normalized/2;
         */
+<<<<<<< Updated upstream
         if (!isBorder || h <= 0)
+=======
+        if (!isBorder || h<=0)
+>>>>>>> Stashed changes
         {
             if (running && !jumping)
                 //transform.position += moveVector * 2 * moveSpeed * Time.deltaTime;
@@ -174,8 +183,13 @@ public class PlayerCtrl : MonoBehaviour
             else
                 //transform.position += moveVector * moveSpeed * Time.deltaTime;
                 //tr.Translate((Vector3.forward * v + Vector3.right * h).normalized
+<<<<<<< Updated upstream
                 //* moveSpeed * Time.deltaTime, Space.Self);
                 rb.velocity = transform.TransformDirection(locVel);
+=======
+                    //* moveSpeed * Time.deltaTime, Space.Self);
+                    rb.velocity = transform.TransformDirection(locVel);
+>>>>>>> Stashed changes
         }
 
         anim.SetBool("isWalk", h == 0 && v == 0);
@@ -200,7 +214,11 @@ public class PlayerCtrl : MonoBehaviour
         // headTr.rotation = Quaternion.Euler(eulerAngleX, 0, 0);
         tr.Rotate(Vector3.up * mouseX * XturnSpeed * Time.deltaTime);
         playerCamera.transform.Rotate(Vector3.left * mouseY * YturnSpeed * Time.deltaTime);
+<<<<<<< Updated upstream
 
+=======
+  
+>>>>>>> Stashed changes
         //tr.Rotate(Vector3.up * turnSpeed * Time.deltaTime * );
     }
 

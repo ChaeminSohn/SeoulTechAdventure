@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 53dd845b52f72e14b9aba3728a64655d
+=======
+guid: 8110b9a4c30b503469f60c556f81a145
+>>>>>>> Stashed changes
 TextureImporter:
   fileIDToRecycleName:
     21300000: TinyStones_0

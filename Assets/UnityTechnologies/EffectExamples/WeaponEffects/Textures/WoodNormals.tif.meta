@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 765b6140a26f45d4d95f59f6bb8ada3b
+=======
+guid: 73dbeb87fef44f344bbc5e531001196d
+>>>>>>> Stashed changes
 timeCreated: 1473953707
 licenseType: Store
 TextureImporter:
